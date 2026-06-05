@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BloodAI — AI Powered Blood Donation Network</title>
+<!-- Professional Typographic Suite -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+    /* UPGRADED PALETTE: CLEAN CLINICAL TEAL & BLUE */
+    --red:#0ea5e9;           /* Vibrant Cyan/Sky Blue */
+    --red-bright:#0d9488;    /* Professional Dark Teal */
+    --red-glow:rgba(13, 148, 136, 0.15);
+    --pink:#2dd4bf;          /* Minty Turquoise Accent */
+    --crimson:#115e59;
+    --bg:#05070f;            /* Slate Deep Obsidian */
+    --bg2:#0b132b;           /* Cold Deep Blue Surface */
+    --bg3:#111c3a;
+    --surface:rgba(255,255,255,0.03);--surface-hover:rgba(255,255,255,0.06);
+    --border:rgba(255,255,255,0.06);--border-bright:rgba(255,255,255,0.12);
+    --text:#f9fafb;--text-muted:#8b8d9e;--text-faint:#4a4c5e;
+    --font-head:'Plus Jakarta Sans', sans-serif;--font-body:'DM Sans', sans-serif;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+/* SUBTLE TEXTURE */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E");pointer-events:none;z-index:0}
+
+/* BACKGROUND LIGHT FIELDS */
+.ambient{position:fixed;pointer-events:none;z-index:0;border-radius:9999px;filter:blur(130px)}
+.amb-1{width:600px;height:600px;top:-150px;left:-150px;background:radial-gradient(circle,rgba(13,148,136,0.12) 0%,transparent 70%)}
+.amb-2{width:600px;height:600px;bottom:-150px;right:-150px;background:radial-gradient(circle,rgba(17,94,89,0.15) 0%,transparent 70%)}
+
+/* GLOBAL NAVIGATION LAYOUT */
+nav{position:fixed;top:0;width:100%;z-index:100;padding:1.25rem 0;transition:all 0.3s ease;border-bottom:1px solid transparent}
+nav.scrolled{background:rgba(5,7,15,0.85);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-color:var(--border);padding:1rem 0}
+.nav-inner{max-width:1280px;margin:0 auto;padding:0 2rem;display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;align-items:center;gap:0.75rem;text-decoration:none}
+.logo-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--red),var(--pink));border-radius:10px;display:grid;place-items:center;box-shadow:0 4px 12px rgba(13,148,136,0.2)}
+.logo-icon svg{width:18px;height:18px}
+.logo-text{font-family:var(--font-head);font-size:1.35rem;font-weight:800;letter-spacing:-0.03em;color:var(--text)}
+.logo-text span{color:var(--pink)}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{color:var(--text-muted);text-decoration:none;font-size:0.9rem;font-weight:500;transition:color 0.2s ease}
+.nav-links a:hover{color:var(--text)}
+.nav-actions{display:flex;gap:0.75rem;align-items:center}
+
+/* EQUAL SIZED NAV BUTTONS */
+.nav-actions .btn-ghost, 
+.nav-actions .btn-primary{min-width:100px;text-align:center;height:40px;display:inline-flex;align-items:center;justify-content:center}
+
+.btn-ghost{padding:0.55rem 1.25rem;border:1px solid var(--border-bright);border-radius:10px;background:transparent;color:var(--text-muted);font-family:var(--font-body);font-size:0.875rem;font-weight:500;cursor:pointer;transition:all 0.2s ease}
+.btn-ghost:hover{border-color:var(--pink);color:var(--text);background:rgba(45,212,191,0.05)}
+.btn-primary{padding:0.55rem 1.25rem;border-radius:10px;border:none;background:var(--red-bright);color:#fff;font-family:var(--font-body);font-size:0.875rem;font-weight:500;cursor:pointer;transition:all 0.2s ease}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 4px 16px var(--red-glow);background:#14b8a6}
+
+/* HERO INTERFACE COMPONENT */
+.hero{min-height:100vh;display:flex;align-items:center;padding:9rem 0 5rem;position:relative;z-index:1}
+.hero-inner{max-width:1280px;margin:0 auto;padding:0 2rem;display:grid;grid-template-columns:1.1fr 0.9fr;gap:4rem;align-items:center}
+.hero-badge{display:inline-flex;align-items:center;gap:0.5rem;padding:0.4rem 1rem;background:rgba(13,148,136,0.08);border:1px solid rgba(13,148,136,0.2);border-radius:999px;font-size:0.775rem;color:var(--pink);font-weight:600;letter-spacing:0.02em;text-transform:uppercase;margin-bottom:1.5rem}
+.hero-badge-dot{width:6px;height:6px;background:var(--pink);border-radius:50%;animation:pulse-ring 2s ease-in-out infinite}
+@keyframes pulse-ring {0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(0.8)}}
+.hero h1{font-family:var(--font-head);font-size:4.25rem;font-weight:800;line-height:1.15;letter-spacing:-0.04em;margin-bottom:1.5rem}
+.hero h1 .line2{display:block;background:linear-gradient(90deg,#0ea5e9,#2dd4bf,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-desc{font-size:1.1rem;line-height:1.65;color:var(--text-muted);max-width:520px;margin-bottom:2.5rem}
+
+/* EQUAL SIZED HERO ACTION BUTTONS */
+.hero-actions{display:flex;gap:1rem;align-items:center;flex-wrap:wrap;margin-bottom:4rem}
+.hero-actions .cta-primary,
+.hero-actions .cta-secondary {min-width:200px;height:48px;justify-content:center;box-sizing:border-box}
+
+.cta-primary{display:inline-flex;align-items:center;gap:0.5rem;padding:0.9rem 2rem;background:linear-gradient(135deg,var(--red),var(--red-bright));border:none;border-radius:12px;color:#fff;font-family:var(--font-body);font-size:0.95rem;font-weight:500;cursor:pointer;transition:all 0.25s ease}
+.cta-primary:hover{transform:translateY(-2px);box-shadow:0 8px 32px var(--red-glow)}
+.cta-secondary{display:inline-flex;align-items:center;gap:0.5rem;padding:0.9rem 2rem;background:transparent;border:1px solid var(--border-bright);border-radius:12px;color:var(--text);font-family:var(--font-body);font-size:0.95rem;font-weight:500;cursor:pointer;transition:all 0.25s ease}
+.cta-secondary:hover{background:var(--surface-hover);border-color:rgba(255,255,255,0.25)}
+
+/* CLEAN THREE-COLUMN GRID POST REMOVAL */
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.stat{border-left:2px solid rgba(45,212,191,0.25);padding-left:1rem}
+.stat-num{font-family:var(--font-head);font-size:1.75rem;font-weight:700;color:#fff;line-height:1.2}
+.stat-label{font-size:0.75rem;font-weight:600;color:var(--text-faint);margin-top:0.25rem;text-transform:uppercase;letter-spacing:0.05em}
+
+/* RADAR DASHBOARD IMPLEMENTATION */
+.dashboard{position:relative;display:flex;justify-content:flex-end}
+.dash-panel{background:rgba(11,19,43,0.7);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid var(--border-bright);border-radius:24px;padding:1.5rem;width:100%;max-width:440px;box-shadow:0 25px 50px -12px rgba(0,0,0,0.5);position:relative;z-index:2;animation:card-float 6s ease-in-out infinite}
+@keyframes card-float {0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.dash-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem}
+.dash-title-group{display:flex;align-items:center;gap:0.5rem}
+.dash-indicator-pulse{width:10px;height:10px;border-radius:50%;background-color:var(--pink);animation:pulse-ring 2s infinite}
+.dash-title{font-family:var(--font-head);text-transform:uppercase;font-size:0.75rem;font-weight:700;letter-spacing:0.15em;color:#94a3b8}
+.dash-scan-tag{font-family:monospace;font-size:10px;background:rgba(255,255,255,0.05);padding:0.25rem 0.5rem;border-radius:4px;color:var(--pink);border:1px solid rgba(255,255,255,0.05)}
+
+/* Radar Visual Screen Context */
+.radar-viewport{position:relative;height:176px;border-radius:16px;background-color:rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.05);margin-bottom:1.5rem;display:flex;overflow:hidden;align-items:center;justify-content:center}
+.radar-ring{position:absolute;border-radius:50%;border:1px solid rgba(45,212,191,0.3);display:flex;align-items:center;justify-content:center;animation:radar-ping-sweep 3s cubic-bezier(0.1, 0.8, 0.3, 1) infinite}
+.radar-ring-1{width:112px;height:112px}
+.radar-ring-2{width:160px;height:160px;animation-delay:0.7s;border-color:rgba(14,165,233,0.15)}
+@keyframes radar-ping-sweep {0%{transform:scale(0.6);opacity:1}100%{transform:scale(1.4);opacity:0}}
+
+/* Center Node Target identity */
+.center-identity-node{position:relative;z-index:10;width:64px;height:64px;border-radius:16px;background:linear-gradient(135deg,var(--red),var(--red-bright));display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 10px 15px -3px rgba(13,148,136,0.3)}
+.identity-blood{font-family:var(--font-head);font-size:1.5rem;font-weight:900;color:#fff;line-height:1}
+.identity-lbl{font-size:8px;text-transform:uppercase;letter-spacing:0.05em;font-weight:700;opacity:0.8;color:#fff;margin-top:2px}
+
+/* Blip Targets */
+.radar-target-blip{position:absolute;border-radius:50%}
+.blip-alpha{top:32px;left:48px;width:6px;height:6px;background-color:#34d399;box-shadow:0 0 10px #34d399}
+.blip-beta{bottom:40px;right:56px;width:6px;height:6px;background-color:var(--pink);box-shadow:0 0 10px var(--pink);animation:blip-ping-effect 1.5s cubic-bezier(0, 0, 0.2, 1) infinite}
+.blip-gamma{top:64px;right:64px;width:4px;height:4px;background-color:#38bdf8}
+@keyframes blip-ping-effect {0%{transform:scale(1);opacity:1}75%,100%{transform:scale(2.5);opacity:0}}
+
+/* Analytical Data Logs Rows */
+.analytics-stack{display:flex;flex-direction:column;gap:0.75rem}
+.glass-row-card{background:rgba(255,255,255,0.02);border:1px solid var(--border);padding:0.75rem;border-radius:12px;display:flex;justify-content:space-between;align-items:center}
+.row-icon-title-pair{display:flex;align-items:center;gap:0.75rem}
+.row-icon-box{width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,0.05);display:grid;place-items:center;font-size:0.875rem}
+.row-label-text{font-size:0.875rem;font-weight:500;color:#cbd5e1}
+.row-badge-value{font-family:monospace;font-size:0.875rem;font-weight:700}
+.progress-container-box{background:rgba(255,255,255,0.02);border:1px solid var(--border);padding:0.875rem;border-radius:12px}
+.progress-meta-row{display:flex;justify-content:space-between;font-size:0.75rem;margin-bottom:0.5rem}
+.progress-label{color:var(--text-muted);font-weight:500}
+.progress-value-numeric{font-family:monospace;color:#fff;font-weight:700}
+.progress-track-rail{width:100%;height:6px;background:#0f172a;border-radius:99px;overflow:hidden}
+.progress-bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--red),var(--pink));width:85%}
+
+/* CORE SECTIONS FORMATTING */
+.section{padding:8rem 0;position:relative;z-index:1}
+/* FIXED WRAPPER MATRIX FOR GLOBAL ALIGNMENT STANDARDS */
+.section-inner{max-width:1280px;margin:0 auto;padding:0 2rem}
+.section-header-center{text-align:center;max-width:600px;margin:0 auto 4rem}
+.section-header-left{max-width:500px}
+.section-tag{display:inline-block;padding:0.35rem 0.85rem;background:rgba(13,148,136,0.06);border:1px solid rgba(13,148,136,0.18);border-radius:999px;font-size:0.725rem;font-weight:600;color:var(--pink);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:1rem}
+.section-title{font-family:var(--font-head);font-size:3rem;font-weight:800;letter-spacing:-0.03em;line-height:1.15;margin-bottom:1.25rem}
+.section-sub{font-size:1.05rem;color:var(--text-muted);line-height:1.6}
+.divider{border:none;border-top:1px solid var(--border);width:100%}
+
+/* CAPABILITIES LAYOUT FRAMEWORK */
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border-radius:24px;overflow:hidden;border:1px solid var(--border)}
+.feature-card{background:var(--bg2);padding:3rem 2.25rem;transition:background 0.25s ease}
+.feature-card:hover{background:var(--bg3)}
+.feature-icon{width:44px;height:44px;border-radius:12px;background:rgba(13,148,136,0.08);border:1px solid rgba(13,148,136,0.15);display:grid;place-items:center;margin-bottom:1.5rem}
+.feature-icon svg{width:20px;height:20px;stroke:var(--pink);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.feature-title{font-family:var(--font-head);font-size:1.15rem;font-weight:700;margin-bottom:0.75rem;letter-spacing:-0.01em}
+.feature-desc{font-size:0.925rem;color:var(--text-muted);line-height:1.6}
+
+/* PROCESS TIMELINE CONNECTOR */
+.how-section-grid{display:grid;grid-template-columns:0.9fr 1.1fr;gap:5rem;align-items:start}
+.how-wrap{display:flex;flex-direction:column;position:relative}
+
+.how-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 28px;
+    top: calc(2rem + 56px);
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--red), var(--pink));
+    z-index: 1;
+}
+.how-step{display:grid;grid-template-columns:56px 1fr;gap:2rem;align-items:start;padding:2rem 0;border-bottom:1px solid var(--border);position:relative}
+.how-step:last-child{border-bottom:none}
+
+.how-num{
+    width:56px;
+    height:56px;
+    border-radius:14px;
+    background: transparent;
+    border:1px solid rgba(13,148,136,0.25);
+    display:grid;
+    place-items:center;
+    font-family:var(--font-head);
+    font-size:1.05rem;
+    font-weight:700;
+    color:var(--pink);
+    position:relative;
+    z-index:2;
+}
+.how-content h3{font-family:var(--font-head);font-size:1.2rem;font-weight:700;margin-bottom:0.5rem;letter-spacing:-0.01em}
+.how-content p{font-size:0.95rem;color:var(--text-muted);line-height:1.6}
+.how-tag{display:inline-block;margin-top:0.75rem;font-size:0.725rem;font-weight:600;color:var(--pink);background:rgba(13,148,136,0.05);border:1px solid rgba(13,148,136,0.12);padding:0.25rem 0.65rem;border-radius:999px}
+
+/* HIGH OUTPUT ACTIONS AREA WITH EQUAL BUTTONS */
+.cta-band{position:relative;overflow:hidden;border-radius:24px;padding:5.5rem 3rem;text-align:center;background:linear-gradient(135deg,#05070f 0%,#08171a 50%,#05070f 100%);border:1px solid rgba(13,148,136,0.15);box-shadow:0 15px 35px rgba(0,0,0,0.4)}
+.cta-band-content{position:relative;z-index:1;max-width:640px;margin:0 auto}
+.cta-band h2{font-family:var(--font-head);font-size:3.25rem;font-weight:800;letter-spacing:-0.03em;margin-bottom:1rem;line-height:1.15}
+.cta-band p{font-size:1.1rem;color:var(--text-muted);margin-bottom:2.5rem}
+.cta-band-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.cta-band-actions .cta-primary,
+.cta-band-actions .cta-secondary {min-width:220px;height:48px;justify-content:center;box-sizing:border-box}
+
+/* STRUCTURE FOOTER */
+footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:3.5rem 0;background:#02040a}
+.footer-inner{max-width:1280px;margin:0 auto;padding:0 2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.5rem}
+.footer-brand{display:flex;align-items:center;gap:0.75rem}
+.footer-copy{font-size:0.85rem;color:var(--text-faint);font-weight:500}
+.footer-links{display:flex;gap:2rem}
+.footer-links a{font-size:0.85rem;color:var(--text-faint);text-decoration:none;font-weight:500;transition:color 0.2s ease}
+.footer-links a:hover{color:var(--text-muted)}
+
+/* TWO-WAY BI-DIRECTIONAL MOTION ENGINE */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* BREAKPOINT MATRICES RESPONSIVE DESIGNS */
+@media (max-width:1024px) {
+    .hero h1{font-size:3.5rem}
+    .hero-inner{grid-template-columns:1fr;gap:4rem}
+    .dashboard{justify-content:center}
+    .how-section-grid{grid-template-columns:1fr;gap:3rem}
+    .features-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:768px) {
+    .hero h1{font-size:2.75rem}
+    .nav-links{display:none}
+    .nav-inner{flex-direction:column;gap:1rem}
+    .nav-actions{width:100%;justify-content:center}
+    .nav-actions .btn-ghost, 
+    .nav-actions .btn-primary{flex:1;max-width:180px}
+    .features-grid{grid-template-columns:1fr}
+    .section-title{font-size:2.25rem}
+    .cta-band h2{font-size:2.25rem}
+    .footer-inner{flex-direction:column;text-align:center}
+    .hero-stats{grid-template-columns:1fr;gap:1.25rem}
+    .how-step:not(:last-child)::after {left: 28px;}
+    .hero-actions .cta-primary,
+    .hero-actions .cta-secondary,
+    .cta-band-actions .cta-primary,
+    .cta-band-actions .cta-secondary {width:100%;flex:1}
+}
+/* Flask Route Links - Same Button Styling */
+
+a.btn-ghost,
+a.btn-primary,
+a.cta-primary,
+a.cta-secondary{
+    text-decoration:none;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    font-family:inherit;
+    color:inherit;
+}
+
+/* Navbar Buttons */
+.nav-actions a.btn-ghost,
+.nav-actions a.btn-primary{
+    min-width:100px;
+    height:40px;
+}
+
+/* Hero Buttons */
+.hero-actions a.cta-primary,
+.hero-actions a.cta-secondary{
+    min-width:200px;
+    height:48px;
+}
+
+/* CTA Section Buttons */
+.cta-band-actions a.cta-primary,
+.cta-band-actions a.cta-secondary{
+    min-width:220px;
+    height:48px;
+}
+</style>
+</head>
+<body>
+
+<div class="ambient amb-1"></div>
+<div class="ambient amb-2"></div>
+
+<!-- STICKY GLASS HEADER NAV CONTAINER -->
+<nav id="nav">
+<div class="nav-inner">
+<a href="#" class="logo">
+<div class="logo-icon">
+<svg viewBox="0 0 24 24" fill="white"><path d="M12 2C12 2 5 10 5 15a7 7 0 0014 0c0-5-7-13-7-13z"/></svg>
+</div>
+<span class="logo-text">BloodLink<span>AI</span></span>
+</a>
+<ul class="nav-links">
+<li><a href="#">Home</a></li>
+<li><a href="#features">Features</a></li>
+<li><a href="#how">How It Works</a></li>
+<li><a href="#contact">Contact</a></li>
+</ul>
+<div class="nav-actions">
+    <a href="{{ url_for('login') }}" class="btn-ghost">Login</a>
+    <a href="{{ url_for('register') }}" class="btn-primary">Register</a>
+</div>
+</div>
+</nav>
+
+<main>
+<!-- HERO INTERACTIVE AREA -->
+<section class="hero">
+<div class="hero-inner">
+<div>
+<div class="hero-badge"><span class="hero-badge-dot"></span>AI-Powered Blood Network</div>
+<h1>Find the Right<br><span class="line2">Blood, Right Now</span></h1>
+<p class="hero-desc">Intelligent matching between patients, hospitals and verified donors — powered by real-time AI and emergency-grade alerts.</p>
+<div class="hero-actions">
+    <a href="{{ url_for('register') }}" class="cta-primary">
+        Find a Donor
+    </a>
+
+    <a href="{{ url_for('register') }}" class="cta-secondary">
+        Become a Donor →
+    </a>
+</div>
+
+<!-- COMPACT 3-COLUMN STATS MODULE (24/7 REMOVED COMPLETELY) -->
+<div class="hero-stats">
+<div class="stat"><div class="stat-num animate-count">10K+</div><div class="stat-label">Donors</div></div>
+<div class="stat"><div class="stat-num animate-count">2.5K+</div><div class="stat-label">Lives Saved</div></div>
+<div class="stat"><div class="stat-num animate-count">150+</div><div class="stat-label">Cities</div></div>
+</div>
+</div>
+
+<!-- RADAR AI DASHBOARD COMPONENT MODULE -->
+<div class="dashboard">
+<div class="dash-panel">
+<div class="dash-header">
+<div class="dash-title-group">
+<span class="dash-indicator-pulse"></span>
+<h3 class="dash-title">AI Matching Dashboard</h3>
+</div>
+<span class="dash-scan-tag">LIVE SCAN</span>
+</div>
+
+<!-- Radar Processing Core -->
+<div class="radar-viewport">
+<div class="radar-ring radar-ring-1"></div>
+<div class="radar-ring radar-ring-2"></div>
+
+<div class="center-identity-node">
+<span class="identity-blood">O+</span>
+<span class="identity-lbl">Available</span>
+</div>
+
+<span class="radar-target-blip blip-alpha"></span>
+<span class="radar-target-blip blip-beta"></span>
+<span class="radar-target-blip blip-gamma"></span>
+</div>
+
+<!-- Contextual Metrics Feed -->
+<div class="analytics-stack">
+<div class="glass-row-card">
+<div class="row-icon-title-pair">
+<div class="row-icon-box">📍</div>
+<p class="row-label-text">Nearby Donors</p>
+</div>
+<span class="row-badge-value" style="color:#22c55e">Within 5 KM</span>
+</div>
+
+<div class="glass-row-card">
+<div class="row-icon-title-pair">
+<div class="row-icon-box">🎯</div>
+<p class="row-label-text">AI Match Score</p>
+</div>
+<span class="row-badge-value" style="color:var(--pink)">98%</span>
+</div>
+
+<div class="progress-container-box">
+<div class="progress-meta-row">
+<span class="progress-label">Compatible Matches Found</span>
+<span class="progress-value-numeric">12 Donors</span>
+</div>
+<div class="progress-track-rail">
+<div class="progress-bar-fill"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<div class="max-w-7xl mx-auto px-8"><hr class="divider"></div>
+
+<!-- CORE FEATURES SYSTEM -->
+<section class="section" id="features">
+<div class="section-inner">
+<div class="section-header-center reveal">
+<div class="section-tag">Core Capabilities</div>
+<h2 class="section-title">Everything You Need to Save a Life</h2>
+<p class="section-sub">Purpose-built tools engineered for speed, extreme accuracy and absolute trust — when every second matters.</p>
+</div>
+<div class="features-grid reveal">
+<div class="feature-card">
+<div class="feature-icon">
+<svg viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg>
+</div>
+<h3 class="feature-title">Intelligent Matching</h3>
+<p class="feature-desc">AI cross-references blood type, location, health history and urgency level to surface the most compatible donors instantly.</p>
+</div>
+<div class="feature-card">
+<div class="feature-icon">
+<svg viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+</div>
+<h3 class="feature-title">Proximity Search</h3>
+<p class="feature-desc">Real-time geolocation surfaces verified donors within your radius, with live availability status updated every 60 seconds.</p>
+</div>
+<div class="feature-card">
+<div class="feature-icon">
+<svg viewBox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+</div>
+<h3 class="feature-title">Emergency Alerts</h3>
+<p class="feature-desc">Critical blood requests push instantly to all matching donors in the area via SMS, push, and in-app notifications.</p>
+</div>
+<div class="feature-card">
+<div class="feature-icon">
+<svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+</div>
+<h3 class="feature-title">Verified Donors</h3>
+<p class="feature-desc">Every donor undergoes digital identity verification and health eligibility screening before being activated on the platform.</p>
+</div>
+<div class="feature-card">
+<div class="feature-icon">
+<svg viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+</div>
+<h3 class="feature-title">Live Inventory</h3>
+<p class="feature-desc">Hospitals connect directly to monitor blood bank stock, request specific types and coordinate logistics end-to-end.</p>
+</div>
+<div class="feature-card">
+<div class="feature-icon">
+<svg viewBox="0 0 24 24"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+</div>
+<h3 class="feature-title">Donor Chat</h3>
+<p class="feature-desc">Secure in-app messaging lets hospitals coordinate directly with confirmed donors before and after donation appointments.</p>
+</div>
+</div>
+</div>
+</section>
+
+<div class="max-w-7xl mx-auto px-8"><hr class="divider"></div>
+
+<!-- OPERATIONAL STEPS MAP -->
+<section class="section" id="how">
+<div class="section-inner how-section-grid">
+<div class="section-header-left reveal">
+<div class="section-tag">Process</div>
+<h2 class="section-title">How BloodAI Works</h2>
+<p class="section-sub">From registration to deployment — a fluid, AI-guided system engineered to perform efficiently under time-sensitive requirements.</p>
+</div>
+<div class="how-wrap">
+<div class="how-step reveal">
+<div class="how-num">01</div>
+<div class="how-content">
+<h3>Register &amp; Verify</h3>
+<p>Create your profile as a donor, patient or hospital. Our AI-assisted onboarding verifies identity and health variables in under 3 minutes.</p>
+<span class="how-tag">~3 min setup</span>
+</div>
+</div>
+<div class="how-step reveal">
+<div class="how-num">02</div>
+<div class="how-content">
+<h3>Targeted Analysis</h3>
+<p>The moment a request is initiated, our model calculates cross-compatibility, distance vectors, and active availability indices to surface matched profiles.</p>
+<span class="how-tag">Under 10 seconds</span>
+</div>
+</div>
+<div class="how-step reveal">
+<div class="how-num">03</div>
+<div class="how-content">
+<h3>Instant Dispatch</h3>
+<p>Matched donors receive a secure emergency routing alert with exact request parameters, logistics information, and a single-tap acceptance sequence.</p>
+<span class="how-tag">Real-time push</span>
+</div>
+</div>
+<div class="how-step reveal">
+<div class="how-num">04</div>
+<div class="how-content">
+<h3>Fulfillment &amp; Recording</h3>
+<p>Donation procedures are executed, systematically logged, and verified cryptographically. Every entry reinforces a trusted framework of life-savers.</p>
+<span class="how-tag">Verified &amp; recorded</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<div class="max-w-7xl mx-auto px-8"><hr class="divider"></div>
+
+<!-- CONVERSION CARD BANNER -->
+<section class="section" id="contact">
+<div class="section-inner">
+<div class="cta-band reveal">
+<div class="cta-band-content">
+<h2>Become a Hero Today</h2>
+<p>Join over 10,000+ registered donors actively preventing medical supply deficits across 150+ operational cities.</p>
+<div class="cta-band-actions">
+    <a href="{{ url_for('register') }}" class="cta-primary">
+        Register as Donor
+    </a>
+
+    <a href="{{ url_for('login') }}" class="cta-secondary"
+       style="border-color:rgba(255,255,255,0.2)">
+        Request Blood Supply →
+    </a>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+
+<!-- INFRASTRUCTURE FOOTER -->
+<footer>
+<div class="footer-inner">
+<div class="footer-brand">
+<div class="logo-icon" style="width:32px; height:32px; border-radius:8px;">
+<svg viewBox="0 0 24 24" fill="white" style="width:14px; height:14px;"><path d="M12 2C12 2 5 10 5 15a7 7 0 0014 0c0-5-7-13-7-13z"/></svg>
+</div>
+<span style="font-family: var(--font-head); font-weight: 800; letter-spacing: -0.02em; font-size: 1.1rem;">BloodLink<span style="color:var(--pink)">AI</span></span>
+</div>
+<div class="footer-links">
+<a href="#">Privacy Architecture</a>
+<a href="#">Terms of Service</a>
+<a href="#">Contact Infrastructure</a>
+</div>
+<span class="footer-copy">© 2026 BloodLinkAI Network. All rights reserved.</span>
+</div>
+</footer>
+
+<script>
+// Header Scroll Dynamics
+const nav = document.getElementById('nav');
+const manageScroll = () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+};
+window.addEventListener('scroll', manageScroll);
+manageScroll();
+
+// Bi-Directional High Performance Reveal Engine
+const revealElements = document.querySelectorAll('.reveal');
+const processVisibilityEngine = () => {
+    const enterThreshold = window.innerHeight * 0.85;
+    const exitThreshold = window.innerHeight * 0.08;
+    
+    revealElements.forEach(el => {
+        const coords = el.getBoundingClientRect();
+        if (coords.top < enterThreshold && coords.bottom > exitThreshold) {
+            el.classList.add('visible');
+        } else {
+            el.classList.remove('visible');
+        }
+    });
+};
+
+window.addEventListener('scroll', processVisibilityEngine);
+window.addEventListener('resize', processVisibilityEngine);
+processVisibilityEngine();
+
+// PREMIUM DELIBERATE COUNTER ENGINE (SLOWER 3.5s LIFECYCLE)
+const initCounterEngine = () => {
+    const targets = document.querySelectorAll('.animate-count');
+    
+    const countUp = (element) => {
+        const rawText = element.textContent.trim();
+        
+        // Extract out base numeric component and trailing string components cleanly via string segmentation
+        const match = rawText.match(/^([0-9.]+)(.*)$/);
+        if (!match) return;
+
+        const targetNum = parseFloat(match[1]);
+        const suffix = match[2]; 
+        
+        const duration = 3500; // Calibrated down to a clean, highly legible 3.5 seconds
+        const frameRate = 1000 / 60; // Standard 60 FPS request loop intervals
+        const totalSteps = Math.round(duration / frameRate);
+        
+        let stepCount = 0;
+        
+        const updateFrame = () => {
+            stepCount++;
+            
+            const progress = stepCount / totalSteps;
+            // Progressive ease-out curve to provide smooth visual weight deceleration
+            const easeProgress = 1 - Math.pow(1 - progress, 3);
+            const currentVal = targetNum * easeProgress;
+            
+            if (match[1].includes('.')) {
+                element.textContent = currentVal.toFixed(1) + suffix;
+            } else {
+                element.textContent = Math.floor(currentVal).toLocaleString() + suffix;
+            }
+            
+            if (stepCount < totalSteps) {
+                requestAnimationFrame(updateFrame);
+            } else {
+                element.textContent = rawText; // Settle cleanly at final design string parameters
+            }
+        };
+        
+        requestAnimationFrame(updateFrame);
+    };
+
+    // Observer activates count precisely when stats enter standard viewport context limits
+    const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -30px 0px' };
+    const counterObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                countUp(entry.target);
+                observer.unobserve(entry.target); // Sever connection once tracking is finalized
+            }
+        });
+    }, observerOptions);
+
+    targets.forEach(el => counterObserver.observe(el));
+};
+
+// Initializers
+document.addEventListener('DOMContentLoaded', initCounterEngine);
+if (document.readyState === 'interactive' || document.readyState === 'complete') {
+    initCounterEngine();
+}
+</script>
+</body>
+</html>
