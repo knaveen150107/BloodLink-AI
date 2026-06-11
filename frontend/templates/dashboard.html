@@ -1,822 +1,661 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BloodLink AI - Dashboard</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BloodLink AI - Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
-<script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        colors: {
-          'bg':       '#0a0e1a',
-          'surface':  '#0f1523',
-          'card':     '#131b2e',
-          'card2':    '#111827',
-          'border':   '#1e2d45',
-          'border2':  '#243550',
-          'teal':     '#00d4b8',
-          'teal-dim': '#00b09c',
-          'teal-glow':'rgba(0,212,184,0.15)',
-          'purple':   '#a855f7',
-          'purple-dim':'#9333ea',
-          'cyan':     '#22d3ee',
-          'muted':    '#8899aa',
-          'dim':      '#4a5a6a',
-          'urgent':   '#f97316',
-          'success':  '#10b981',
-          'info':     '#3b82f6',
-        },
-        fontFamily: { inter: ['Inter', 'sans-serif'] },
-        boxShadow: {
-          'teal':   '0 0 20px rgba(0,212,184,0.2)',
-          'card':   '0 4px 24px rgba(0,0,0,0.4)',
+  <!-- Tailwind Configuration -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'bg': '#0a0e1a',
+            'surface': '#0f1523',
+            'card': '#131b2e',
+            'card2': '#111827',
+            'border': '#1e2d45',
+            'border2': '#243550',
+            'teal': '#00d4b8',
+            'teal-dim': '#00b09c',
+            'teal-glow': 'rgba(0,212,184,0.15)',
+            'purple': '#a855f7',
+            'purple-dim': '#9333ea',
+            'cyan': '#22d3ee',
+            'muted': '#8899aa',
+            'dim': '#4a5a6a',
+            'urgent': '#f97316',
+            'success': '#10b981',
+            'info': '#3b82f6',
+          },
+          fontFamily: { inter: ['Inter', 'sans-serif'] },
+          boxShadow: {
+            'teal': '0 0 20px rgba(0,212,184,0.2)',
+            'card': '0 4px 24px rgba(0,0,0,0.4)',
+          }
         }
       }
     }
-  }
-</script>
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Inter', sans-serif; background: #0a0e1a; color: #e2e8f0; }
+  </script>
 
-  ::-webkit-scrollbar { width: 4px; height: 4px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: #1e2d45; border-radius: 4px; }
+  <!-- Custom Styles -->
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #f8fafc; color: #1e293b; }
 
-  /* Gradient text */
-  .grad-teal-purple { background: linear-gradient(135deg, #00d4b8, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-  .grad-teal { background: linear-gradient(135deg, #00d4b8, #22d3ee); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 4px; height: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #1e2d45; border-radius: 4px; }
 
-  /* Teal glow button */
-  .btn-teal {
-    background: linear-gradient(135deg, #00d4b8, #22d3ee);
-    color: #0a0e1a;
-    font-weight: 700;
-    border-radius: 10px;
-    transition: all .2s;
-    box-shadow: 0 0 16px rgba(0,212,184,0.3);
-  }
-  .btn-teal:hover { box-shadow: 0 0 24px rgba(0,212,184,0.5); transform: translateY(-1px); }
+    /* Gradient Text */
+    .grad-teal-purple { 
+      background: linear-gradient(135deg, #00d4b8, #a855f7); 
+      -webkit-background-clip: text; 
+      -webkit-text-fill-color: transparent; 
+      background-clip: text; 
+    }
+    .grad-teal { 
+      background: linear-gradient(135deg, #00d4b8, #22d3ee); 
+      -webkit-background-clip: text; 
+      -webkit-text-fill-color: transparent; 
+      background-clip: text; 
+    }
 
-  /* Nav item */
-  .nav-item {
-    display: flex; align-items: center; gap: 10px;
-    padding: 10px 16px; border-radius: 10px; margin: 2px 8px;
-    color: #8899aa; font-size: 13px; font-weight: 500;
-    cursor: pointer; transition: all .2s; text-decoration: none;
-  }
-  .nav-item:hover { background: #131b2e; color: #e2e8f0; }
-  .nav-item.active {
-    background: linear-gradient(135deg, rgba(0,212,184,0.15), rgba(34,211,238,0.08));
-    color: #00d4b8;
-    border: 1px solid rgba(0,212,184,0.25);
-  }
+    /* Teal Button */
+    .btn-teal {
+      background: linear-gradient(135deg, #00d4b8, #22d3ee);
+      color: #0a0e1a;
+      font-weight: 700;
+      border-radius: 10px;
+      transition: all .2s;
+      box-shadow: 0 0 16px rgba(0,212,184,0.3);
+    }
+    .btn-teal:hover { 
+      box-shadow: 0 0 24px rgba(0,212,184,0.5); 
+      transform: translateY(-1px); 
+    }
 
-  /* Card base */
-  .glass-card {
-    background: #131b2e;
-    border: 1px solid #1e2d45;
-    border-radius: 14px;
-  }
+    /* Navigation Items */
+    .nav-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 16px; border-radius: 10px; margin: 2px 8px;
+      color: #8899aa; font-size: 13px; font-weight: 500;
+      cursor: pointer; transition: all .2s; text-decoration: none;
+    }
+    .nav-item:hover { background: #131b2e; color: #e2e8f0; }
+    .nav-item.active {
+      background: linear-gradient(135deg, rgba(0,212,184,0.15), rgba(34,211,238,0.08));
+      color: #00d4b8;
+      border: 1px solid rgba(0,212,184,0.25);
+    }
 
-  /* Chat bubbles */
-  .bubble-user {
-    background: linear-gradient(135deg, #00b09c, #00d4b8);
-    color: #0a0e1a;
-    border-radius: 16px 16px 4px 16px;
-  }
-  .bubble-ai {
-    background: #0f1523;
-    border: 1px solid #1e2d45;
-    border-radius: 16px 16px 16px 4px;
-    color: #e2e8f0;
-  }
+    /* Glass Card */
+    .glass-card {
+      background: #131b2e;
+      border: 1px solid #1e2d45;
+      border-radius: 14px;
+    }
 
-  /* Pulse */
-  @keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.85)} }
-  .pulse { animation: pulse-dot 1.6s ease-in-out infinite; }
+    /* Chat Bubbles */
+    .bubble-user {
+      background: linear-gradient(135deg, #00b09c, #00d4b8);
+      color: #0a0e1a;
+      border-radius: 16px 16px 4px 16px;
+    }
+    .bubble-ai {
+      background: #0f1523;
+      border: 1px solid #1e2d45;
+      border-radius: 16px 16px 16px 4px;
+      color: #e2e8f0;
+    }
 
-  /* Ping ring */
-  @keyframes ping { 0%{transform:scale(1);opacity:.8} 100%{transform:scale(2);opacity:0} }
-  .ping { animation: ping 1.4s ease-out infinite; }
+    /* Animations */
+    @keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.85)} }
+    .pulse { animation: pulse-dot 1.6s ease-in-out infinite; }
 
-  /* Fade in up */
-  @keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
-  .fade-up { animation: fadeUp 0.4s ease forwards; }
+    @keyframes scanRing { 0%{transform:scale(.85);opacity:.6} 50%{transform:scale(1.1);opacity:.2} 100%{transform:scale(.85);opacity:.6} }
+    .scan-ring { animation: scanRing 2.5s ease-in-out infinite; }
 
-  /* Teal scan ring */
-  @keyframes scanRing { 0%{transform:scale(.85);opacity:.6} 50%{transform:scale(1.1);opacity:.2} 100%{transform:scale(.85);opacity:.6} }
-  .scan-ring { animation: scanRing 2.5s ease-in-out infinite; }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+    .fade-up { animation: fadeUp 0.4s ease forwards; }
 
-  /* Match bar fill */
-  .bar-fill { transition: width 1s ease; }
+    @keyframes slideRight { from{opacity:0;transform:translateX(24px)} to{opacity:1;transform:translateX(0)} }
+    .slide-right { animation: slideRight 0.5s ease forwards; }
 
-  /* Slide in from right */
-  @keyframes slideRight { from{opacity:0;transform:translateX(24px)} to{opacity:1;transform:translateX(0)} }
-  .slide-right { animation: slideRight 0.5s ease forwards; }
+    .bar-fill { transition: width 1s ease; }
 
-  /* Donut */
-  .donut-track { fill: none; }
-  .donut-seg { fill: none; stroke-linecap: round; }
+    /* Utility Classes */
+    .suggestion-chip {
+      border: 1px solid #1e2d45;
+      border-radius: 9999px;
+      padding: 6px 12px;
+      font-size: 11px;
+      color: #8899aa;
+      transition: all .2s;
+    }
+    .suggestion-chip:hover {
+      border-color: rgba(0,212,184,0.5);
+      color: #00d4b8;
+      background: rgba(0,212,184,0.05);
+    }
 
-  /* Scrollbar in chat */
-  #chatMessages::-webkit-scrollbar { width: 3px; }
-  #chatMessages::-webkit-scrollbar-thumb { background: #1e2d45; }
+    .action-btn {
+      flex: 1;
+      padding: 6px 0;
+      font-size: 10px;
+      font-weight: 600;
+      border: 1px solid #1e2d45;
+      border-radius: 8px;
+      color: #8899aa;
+      transition: all .2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+    .action-btn:hover {
+      border-color: #243550;
+      color: #e2e8f0;
+    }
+
+    .view-all-btn {
+      width: 100%;
+      margin-top: 12px;
+      padding: 8px 0;
+      font-size: 12px;
+      color: #00d4b8;
+      border: 1px solid #1e2d45;
+      border-radius: 12px;
+      transition: all .2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .view-all-btn:hover {
+      color: #00b09c;
+      border-color: rgba(0,212,184,0.3);
+      background: rgba(0,212,184,0.05);
+    }
+
+    .live-badge {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      font-weight: 700;
+      color: #00d4b8;
+      border: 1px solid rgba(0,212,184,0.3);
+      background: rgba(0,212,184,0.1);
+      padding: 2px 8px;
+      border-radius: 9999px;
+    }
+
+    .activity-item {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    /* Chat Scrollbar */
+    #chatMessages::-webkit-scrollbar { width: 3px; }
+    #chatMessages::-webkit-scrollbar-thumb { background: #1e2d45; }
+  
+/* Professional white-blue theme */
+body{background:#f8fafc!important;color:#1e293b!important}
+.glass-card,.bg-surface,.bg-card{background:#ffffff!important;border-color:#dbeafe!important}
+.nav-item.active{background:#eff6ff!important;color:#2563eb!important;border-color:#bfdbfe!important}
+.btn-teal{background:#2563eb!important;color:#fff!important;box-shadow:none!important}
+header,aside{background:#ffffff!important}
+
+
+body, .glass-card, header, aside { color:#111827 !important; }
+.text-white, .text-muted, .text-slate-200, .text-slate-300 { color:#111827 !important; }
+input { color:#111827 !important; }
+input::placeholder { color:#6b7280 !important; }
+.hero-text { color:#111827 !important; }
+
 </style>
+
+<style id="professional-overrides">
+.glass-card{background:#fff!important;border:1px solid #e5e7eb!important;box-shadow:0 2px 12px rgba(0,0,0,.06)!important}
+.text-white,.text-muted{color:#111827!important}
+.nav-item{color:#374151!important}
+.nav-item:hover{background:#eff6ff!important;color:#2563eb!important}
+.hero-banner,.hero-section{background:linear-gradient(135deg,#2563eb,#3b82f6)!important}
+.w-9.h-9.rounded-lg.flex.items-center.justify-center.text-base.bg-teal\/10{background:#dbeafe!important}
+</style>
+
 </head>
-<body class="flex h-screen overflow-hidden">
 
-<!-- ══════════════ SIDEBAR ══════════════ -->
-<aside id="sidebar" class="w-52 min-w-[208px] flex flex-col bg-surface border-r border-border h-screen overflow-y-auto z-50 flex-shrink-0">
+<body class="flex h-screen overflow-hidden bg-white text-slate-800">
 
-  <!-- Logo -->
-  <div class="flex items-center gap-2.5 px-5 py-5">
-    <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:linear-gradient(135deg,#00d4b8,#22d3ee)">
-      <svg class="w-4 h-4 text-[#0a0e1a]" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5z"/></svg>
+  <!-- Mobile Sidebar Backdrop Overlay -->
+  <div id="sidebarOverlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/60 z-40 hidden lg:hidden transition-opacity duration-300 opacity-0"></div>
+
+  <!-- ===== SIDEBAR ===== -->
+  <!-- 'w-0 lg:w-56' transitions allow full right-side responsive shrinkage when layout scales -->
+  <aside id="sidebar" class="fixed inset-y-0 left-0 w-56 lg:w-56 bg-surface border-r border-border h-screen overflow-y-auto z-50 flex-shrink-0 flex flex-col transform -translate-x-full lg:translate-x-0 lg:static transition-all duration-300 ease-in-out">
+    
+    <!-- Logo -->
+    <div class="flex items-center justify-between px-5 py-5">
+      <div class="flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:linear-gradient(135deg,#00d4b8,#22d3ee)">
+          <svg class="w-4 h-4 text-[#0a0e1a]" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5z"/></svg>
+        </div>
+        <span class="text-[17px] font-bold">BloodLink<span class="grad-teal">AI</span></span>
+      </div>
+      <!-- Close button on mobile -->
+      <button onclick="toggleSidebar()" class="lg:hidden text-muted hover:text-white">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
     </div>
-    <span class="text-[17px] font-bold">BloodLink<span class="grad-teal">AI</span></span>
+
+    <!-- Navigation -->
+    <nav class="flex-1 py-2 overflow-y-auto">
+      <a class="nav-item active" href="#"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>Dashboard</a>
+      <a class="nav-item" href="#"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>AI Assistant</a>
+      <a class="nav-item" href="#"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/></svg>Requests</a>
+      <a class="nav-item" href="#"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>Donors</a>
+      <a class="nav-item relative" href="#">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+        Notifications
+        <span class="ml-auto bg-teal text-[#0a0e1a] text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">3</span>
+      </a>
+      <a class="nav-item" href="#"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>My Donations</a>
+      <a class="nav-item" href="#"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>Profile</a>
+      <a class="nav-item" href="#"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>Settings</a>
+    </nav>
+
+    <!-- Profile Section -->
+    <div class="border-t border-border p-4 bg-surface/50">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="relative">
+          <div class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-[#0a0e1a]" style="background:linear-gradient(135deg,#00d4b8,#22d3ee)">D</div>
+          <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-success border-2 border-surface"></span>
+        </div>
+        <div>
+          <div class="text-sm font-bold text-white">Dharani</div>
+          <div class="text-[11px] text-teal font-medium">Available</div>
+        </div>
+      </div>
+      <div class="space-y-2 mb-3">
+        <div class="flex justify-between text-xs"><span class="text-muted"> Blood Group</span><span class="font-semibold text-white">O+</span></div>
+        <div class="flex justify-between text-xs"><span class="text-muted"> City</span><span class="font-semibold text-white">Chennai</span></div>
+      </div>
+      <button class="btn-teal w-full py-2 text-xs text-center rounded-lg">Update Availability</button>
+    </div>
+  </aside>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <!-- Adding 'min-w-0' ensures the parent container shrinks without being pushed out of layout limits -->
+  <div class="flex-1 flex flex-col min-w-0 overflow-hidden w-full">
+    
+    <!-- Top Bar -->
+    <header class="flex items-center justify-between px-4 sm:px-6 py-3 bg-surface border-b border-border flex-shrink-0 z-30">
+      <div class="flex items-center gap-3 flex-1 max-w-md">
+        <!-- Responsive Menu Toggle Button -->
+        <button onclick="toggleSidebar()" class="text-muted hover:text-white transition-colors p-1">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+<div class="group relative w-full">
+    
+    <div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+        <svg class="w-5 h-5 text-gray-400 group-focus-within:text-blue-600 transition-all duration-300"
+            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M21 21l-4.35-4.35M11 18a7 7 0 100-14 7 7 0 000 14z" />
+        </svg>
+    </div>
+
+    <input
+        type="text"
+        placeholder="Search donors, hospitals, requests..."
+        class="w-full h-12 pl-12 pr-12 bg-white border-2 border-blue-100 rounded-2xl
+               text-gray-800 placeholder-gray-400
+               shadow-sm
+               focus:border-blue-500
+               focus:ring-4
+               focus:ring-blue-100
+               focus:outline-none
+               transition-all duration-300" />
+
+    <button
+        class="absolute right-2 top-1/2 -translate-y-1/2
+               bg-blue-600 hover:bg-blue-700
+               text-white px-4 py-2 rounded-xl
+               transition-all duration-300">
+        Search
+    </button>
+
+</div>
+      </div>
+
+      <!-- User Controls -->
+      <div class="flex items-center gap-3 sm:gap-4 ml-4 flex-shrink-0">
+        <button class="relative text-muted hover:text-white transition-colors hidden sm:block">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+          <span class="absolute -top-1 -right-1 bg-teal text-[#0a0e1a] text-[8px] font-bold w-3.5 h-3.5 rounded-full flex items-center justify-center">3</span>
+        </button>
+        <div class="flex items-center gap-2 cursor-pointer group">
+          <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-[#0a0e1a]" style="background:linear-gradient(135deg,#00d4b8,#22d3ee)">D</div>
+          <div class="hidden md:block">
+            <div class="text-sm font-semibold text-white">Dharani</div>
+            <div class="text-[10px] text-teal font-semibold">Donor</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page Content (Scrollable Container) -->
+    <div class="flex-1 overflow-y-auto">
+      
+      <!-- Hero Banner -->
+      <div class="relative overflow-hidden px-4 sm:px-6 py-6" style="background:linear-gradient(135deg,#0d1628 0%,#0f1a2e 50%,#0a1520 100%)">
+        <div class="absolute inset-0 opacity-5" style="background-image:linear-gradient(#00d4b8 1px,transparent 1px),linear-gradient(90deg,#00d4b8 1px,transparent 1px);background-size:40px 40px"></div>
+        
+        <div class="relative z-10">
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-teal/30 bg-teal/10 text-teal text-[11px] font-semibold mb-3">
+            <span class="w-1.5 h-1.5 rounded-full bg-teal pulse"></span>
+            AI-POWERED BLOOD NETWORK
+          </div>
+          <h2 class="text-xl sm:text-2xl font-bold mb-1 text-white">Welcome back, Dharani! </h2>
+          <p class="text-xs sm:text-sm text-muted mb-5">Every drop can save a life. Let's help someone today.</p>
+
+          <!-- Stats Grid Layout -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
+            <div class="glass-card p-3 flex items-center gap-3" style="border-color:rgba(0,212,184,0.2)">
+              <div class="w-9 h-9 rounded-lg flex items-center justify-center text-sm font-bold bg-blue-100 text-blue-700">D</div>
+              <div class="min-w-0">
+                <div class="text-[10px] text-muted mb-0.5 truncate">Total Donors</div>
+                <div class="text-base font-bold text-white">12,458</div>
+                <div class="text-[10px] text-teal">↑ 12.5%</div>
+              </div>
+            </div>
+            <div class="glass-card p-3 flex items-center gap-3" style="border-color:rgba(0,212,184,0.2)">
+              <div class="w-9 h-9 rounded-lg flex items-center justify-center text-sm font-bold bg-green-100 text-green-700">A</div>
+              <div class="min-w-0">
+                <div class="text-[10px] text-muted mb-0.5 truncate">Available Donors</div>
+                <div class="text-base font-bold text-white">1,245</div>
+                <div class="text-[10px] text-success">↑ 8.4%</div>
+              </div>
+            </div>
+            <div class="glass-card p-3 flex items-center gap-3" style="border-color:rgba(0,212,184,0.2)">
+              <div class="w-9 h-9 rounded-lg flex items-center justify-center text-sm font-bold bg-blue-100 text-blue-700">R</div>
+              <div class="min-w-0">
+                <div class="text-[10px] text-muted mb-0.5 truncate">Active Requests</div>
+                <div class="text-base font-bold text-white">32</div>
+                <div class="text-[10px] text-info">↑ 16.2%</div>
+              </div>
+            </div>
+            <div class="glass-card p-3 flex items-center gap-3" style="border-color:rgba(168,85,247,0.2)">
+              <div class="w-9 h-9 rounded-lg flex items-center justify-center text-sm font-bold bg-purple-100 text-purple-700">L</div>
+              <div class="min-w-0">
+                <div class="text-[10px] text-muted mb-0.5 truncate">Lives Impacted</div>
+                <div class="text-base font-bold text-white">3,245</div>
+                <div class="text-[10px] text-purple">↑ 20.1%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Dashboard Content Area -->
+      <div class="p-4 sm:p-6 grid grid-cols-1 xl:grid-cols-3 gap-6">
+        
+        <!-- Left Side Main Column -->
+        <div class="xl:col-span-2 flex flex-col gap-6 min-w-0">
+          
+          <!-- AI Chat Card -->
+          <div class="glass-card overflow-hidden" style="border-color:rgba(0,212,184,0.2)">
+            <div class="flex items-center justify-between px-4 py-3 border-b border-border flex-wrap gap-2">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full flex items-center justify-center text-sm" style="background:linear-gradient(135deg,rgba(0,212,184,0.2),rgba(34,211,238,0.1));border:1px solid rgba(0,212,184,0.3)"></div>
+                <div>
+                  <div class="text-sm font-bold text-white flex items-center gap-2">
+                    AI Assistant
+                    <span class="flex items-center gap-1 text-[10px] text-teal font-normal">
+                      <span class="w-1.5 h-1.5 rounded-full bg-teal pulse"></span> Online
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <button class="flex items-center gap-1.5 text-[11px] text-muted hover:text-white border border-border rounded-lg px-2.5 py-1 hover:border-border2 transition-colors">
+                Clear Chat
+              </button>
+            </div>
+            
+            <!-- Chat Windows -->
+            <div id="chatMessages" class="px-4 py-4 space-y-4 min-h-[220px] max-h-[320px] overflow-y-auto">
+              <div id="emptyState" class="flex flex-col items-center justify-center h-40 text-center">
+                <div class="relative w-16 h-16 mb-3 flex items-center justify-center">
+                  <div class="absolute inset-0 rounded-full border border-teal/20 scan-ring"></div>
+                  <div class="w-10 h-10 rounded-xl flex items-center justify-center text-[#0a0e1a] font-bold text-sm" style="background:linear-gradient(135deg,#00d4b8,#22d3ee)"></div>
+                </div>
+                <div class="text-sm font-bold text-white mb-1">BloodLink <span class="grad-teal">AI</span> Assistant</div>
+                <div class="text-[11px] text-muted max-w-xs leading-relaxed">Describe your blood need in natural language. I'll find compatible donors near you instantly.</div>
+              </div>
+            </div>
+
+            <!-- Chips Section -->
+            <div id="suggestions" class="px-4 pb-3">
+              <div class="text-[10px] text-muted mb-2">Try asking:</div>
+              <div class="flex flex-wrap gap-2">
+                <button onclick="useSuggestion(this)" class="suggestion-chip text-left">Need O+ blood in MIOT Hospital</button>
+                <button onclick="useSuggestion(this)" class="suggestion-chip text-left">B+ blood urgently in Kilpauk</button>
+              </div>
+            </div>
+
+            <div id="followUpChips" class="hidden px-4 pb-3">
+              <div class="flex flex-wrap gap-2">
+                <button onclick="sendFollowUp(this)" class="suggestion-chip">How long will it take?</button>
+                <button onclick="sendFollowUp(this)" class="suggestion-chip">Where can I get blood?</button>
+              </div>
+            </div>
+
+            <!-- Chat Entry Form Inputs -->
+            <div class="px-4 pb-4">
+              <div class="flex items-center gap-2 bg-[#0a0e1a] border border-border focus-within:border-teal/50 rounded-xl px-3 py-2 transition-colors">
+                <input id="chatInput" type="text" placeholder="Type your message..." class="flex-1 bg-transparent text-sm text-white outline-none placeholder-dim min-w-0" onkeydown="handleKey(event)" />
+                <button onclick="sendMessage()" class="btn-teal px-4 py-1.5 text-xs flex items-center gap-1.5 rounded-lg flex-shrink-0">
+                  <span>Send</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Nearby Donors Area -->
+          <div class="min-w-0">
+            <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
+              <h3 class="text-sm font-bold text-white">Nearby Compatible Donors</h3>
+              <span class="text-[11px] text-teal cursor-pointer hover:underline flex items-center gap-1">Sorted by distance</span>
+            </div>
+            
+            <!-- Dynamic Grid Structure -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <!-- Donor 1 -->
+              <div class="glass-card p-4 hover:border-teal/30 transition-colors flex flex-col justify-between min-w-0">
+                <div>
+                  <div class="flex items-center justify-between mb-2 gap-2">
+                    <div class="flex items-center gap-2.5 min-w-0">
+                      <div class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold text-white bg-blue-900 flex-shrink-0">R</div>
+                      <div class="min-w-0">
+                        <div class="text-xs font-semibold text-white truncate">Ravi Kumar</div>
+                        <div class="text-[11px] text-muted truncate"> 1.2 km away</div>
+                      </div>
+                    </div>
+                    <span class="text-sm font-bold text-teal bg-teal/10 px-2 py-0.5 rounded flex-shrink-0">A+</span>
+                  </div>
+                  <div class="flex items-center gap-1 text-[11px] text-success mb-3">
+                    <span class="w-1.5 h-1.5 rounded-full bg-success pulse"></span> Available
+                  </div>
+                  <div class="mb-4">
+                    <div class="flex justify-between text-[10px] mb-1"><span class="text-muted">Match</span><span class="text-teal font-bold">98%</span></div>
+                    <div class="h-1 bg-[#0a0e1a] rounded-full overflow-hidden"><div class="h-full rounded-full bar-fill" style="width:98%;background:linear-gradient(90deg,#00d4b8,#22d3ee)"></div></div>
+                  </div>
+                </div>
+                <div class="flex gap-2">
+                  <button class="action-btn py-2"> Call</button>
+                  <button class="btn-teal action-btn py-2"> Notify</button>
+                </div>
+              </div>
+
+              <!-- Donor 2 -->
+              <div class="glass-card p-4 hover:border-teal/30 transition-colors flex flex-col justify-between min-w-0">
+                <div>
+                  <div class="flex items-center justify-between mb-2 gap-2">
+                    <div class="flex items-center gap-2.5 min-w-0">
+                      <div class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold text-white bg-purple-900 flex-shrink-0">P</div>
+                      <div class="min-w-0">
+                        <div class="text-xs font-semibold text-white truncate">Priya S</div>
+                        <div class="text-[11px] text-muted truncate"> 2.4 km away</div>
+                      </div>
+                    </div>
+                    <span class="text-sm font-bold text-teal bg-teal/10 px-2 py-0.5 rounded flex-shrink-0">A+</span>
+                  </div>
+                  <div class="flex items-center gap-1 text-[11px] text-success mb-3">
+                    <span class="w-1.5 h-1.5 rounded-full bg-success pulse"></span> Available
+                  </div>
+                  <div class="mb-4">
+                    <div class="flex justify-between text-[10px] mb-1"><span class="text-muted">Match</span><span class="text-teal font-bold">95%</span></div>
+                    <div class="h-1 bg-[#0a0e1a] rounded-full overflow-hidden"><div class="h-full rounded-full bar-fill" style="width:95%;background:linear-gradient(90deg,#00d4b8,#22d3ee)"></div></div>
+                  </div>
+                </div>
+                <div class="flex gap-2">
+                  <button class="action-btn py-2"> Call</button>
+                  <button class="btn-teal action-btn py-2"> Notify</button>
+                </div>
+              </div>
+            </div>
+            <button class="view-all-btn py-2.5">View all donors</button>
+          </div>
+        </div>
+
+        <!-- Right Side Supporting Panel Column -->
+        <div id="rightPanel" class="flex flex-col gap-6 min-w-0">
+          
+          <!-- Current Request Card -->
+          <div class="glass-card p-4 border border-teal/20">
+            <div class="flex items-center justify-between mb-4">
+              <div class="text-sm font-bold text-white flex items-center gap-2"> Current Request</div>
+              <span class="live-badge"><span class="w-1.5 h-1.5 rounded-full bg-teal pulse"></span> Live</span>
+            </div>
+            <div class="space-y-3 text-xs mb-4">
+              <div class="flex justify-between items-center border-b border-border/40 pb-2"><span class="text-muted">Blood Group</span><span class="font-bold text-teal text-sm">A+</span></div>
+              <div class="flex justify-between items-start border-b border-border/40 pb-2 gap-2"><span class="text-muted flex-shrink-0">Hospital</span><span class="font-semibold text-white text-right truncate max-w-[160px]">Apollo Hospital, Chennai</span></div>
+              <div class="flex justify-between items-center border-b border-border/40 pb-2"><span class="text-muted">Units Required</span><span class="font-semibold text-white">2 Units</span></div>
+              <div class="flex justify-between items-center"><span class="text-muted">Urgency</span><span class="font-bold text-urgent">High</span></div>
+            </div>
+            
+            <!-- Progress Circles -->
+            <div class="text-xs font-semibold text-muted mb-2">Request Progress</div>
+            <div class="flex items-center gap-4 bg-surface/40 p-2 rounded-xl">
+              <div class="relative w-14 h-14 flex-shrink-0">
+                <svg viewBox="0 0 36 36" class="w-full h-full -rotate-90">
+                  <circle cx="18" cy="18" r="15.9" fill="none" stroke="#1e2d45" stroke-width="3.5"/>
+                  <circle cx="18" cy="18" r="15.9" fill="none" stroke="#3b82f6" stroke-width="3.5" stroke-dasharray="86 14" stroke-linecap="round"/>
+                  <circle cx="18" cy="18" r="15.9" fill="none" stroke="#00d4b8" stroke-width="3.5" stroke-dasharray="14 86" stroke-linecap="round" stroke-dashoffset="-86"/>
+                </svg>
+                <div class="absolute inset-0 flex flex-col items-center justify-center text-[11px] font-bold text-white">28</div>
+              </div>
+              <div class="space-y-1 flex-1 text-[11px] min-w-0">
+                <div class="flex justify-between gap-2"><span class="text-muted truncate">Accepted</span><span class="font-bold text-teal flex-shrink-0">4</span></div>
+                <div class="flex justify-between gap-2"><span class="text-muted truncate">Pending</span><span class="font-bold text-info flex-shrink-0">24</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent Activity Cards Layer -->
+          <div class="glass-card p-4">
+            <h3 class="text-sm font-bold text-white mb-4">Recent Activity</h3>
+            <div class="space-y-4">
+              <div class="activity-item">
+                <div class="w-6 h-6 rounded-full flex items-center justify-center bg-teal/10 mt-0.5 text-xs flex-shrink-0"></div>
+                <div class="flex-1 min-w-0">
+                  <div class="text-xs text-white break-words">Request created for A+ blood at Apollo Hospital</div>
+                  <div class="text-[10px] text-muted mt-0.5">10:30 AM</div>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="w-6 h-6 rounded-full flex items-center justify-center bg-info/10 mt-0.5 text-xs flex-shrink-0"></div>
+                <div class="flex-1 min-w-0">
+                  <div class="text-xs text-white break-words">AI matched 28 compatible donors</div>
+                  <div class="text-[10px] text-muted mt-0.5">10:31 AM</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
   </div>
 
-  <!-- Nav -->
-  <nav class="flex-1 py-2">
-    <a class="nav-item active" href="#">
-      <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
-      Dashboard
-    </a>
-    <a class="nav-item" href="#">
-      <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-      AI Assistant
-    </a>
-    <a class="nav-item" href="#">
-      <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/></svg>
-      Requests
-    </a>
-    <a class="nav-item" href="#">
-      <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
-      Donors
-    </a>
-    <a class="nav-item relative" href="#">
-      <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
-      Notifications
-      <span class="ml-auto bg-teal text-[#0a0e1a] text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0">3</span>
-    </a>
-    <a class="nav-item" href="#">
-      <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-      My Donations
-    </a>
-    <a class="nav-item" href="#">
-      <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-      Profile
-    </a>
-    <a class="nav-item" href="#">
-      <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
-      Settings
-    </a>
-    <a class="nav-item" href="#">
-      <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-      Help &amp; Support
-    </a>
-  </nav>
+  <!-- ===== SCRIPT REGIONS ===== -->
+  <script>
+    
+function toggleSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
 
-  <!-- Profile bottom -->
-  <div class="border-t border-border p-4">
-    <div class="flex items-center gap-3 mb-4">
-      <div class="relative">
-        <div class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 text-[#0a0e1a]" style="background:linear-gradient(135deg,#00d4b8,#22d3ee)">D</div>
-        <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-success border-2 border-surface"></span>
-      </div>
-      <div>
-        <div class="text-sm font-bold text-white">Dharani</div>
-        <div class="text-[11px] text-teal font-medium">Available</div>
-      </div>
-    </div>
-    <div class="space-y-2 mb-3">
-      <div class="flex justify-between text-xs"><span class="text-muted">🩸 Blood Group</span><span class="font-semibold text-white">O+</span></div>
-      <div class="flex justify-between text-xs"><span class="text-muted">📍 City</span><span class="font-semibold text-white">Chennai</span></div>
-      <div class="flex justify-between text-xs"><span class="text-muted">📅 Last Donation</span><span class="font-semibold text-white">12 Aug 2023</span></div>
-    </div>
-    <button class="btn-teal w-full py-2 text-xs text-center rounded-lg">Update Availability</button>
-    <div class="text-center mt-3">
-      <div class="text-[11px] font-bold text-white">Every drop counts <span class="text-teal">❤️</span></div>
-      <div class="text-[10px] text-muted mt-0.5">Thank you for being a hero!</div>
-      <div class="text-3xl mt-2 opacity-50">🩸</div>
-    </div>
-  </div>
-</aside>
+  if (window.innerWidth >= 1024) return;
 
-<!-- ══════════════ MAIN ══════════════ -->
-<div class="flex-1 flex flex-col min-w-0 overflow-hidden">
-
-  <!-- TOPBAR -->
-  <header class="flex items-center justify-between px-6 py-3 bg-surface border-b border-border flex-shrink-0">
-    <div class="flex items-center gap-3">
-      <button onclick="toggleSidebar()" class="text-muted hover:text-white transition-colors lg:hidden">
-        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
-      </button>
-      <!-- Search -->
-      <div class="flex items-center gap-2 bg-card border border-border rounded-xl px-3 py-2 w-80 focus-within:border-teal transition-colors">
-        <svg class="w-4 h-4 text-muted flex-shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-        <input class="bg-transparent text-sm text-white outline-none flex-1 placeholder-dim" placeholder="Search donors, hospitals, requests..." />
-        <span class="text-[10px] text-dim bg-[#0a0e1a] px-1.5 py-0.5 rounded font-mono border border-border">Ctrl+K</span>
-      </div>
-    </div>
-    <div class="flex items-center gap-4">
-      <button class="relative text-muted hover:text-white transition-colors">
-        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
-        <span class="absolute -top-1 -right-1 bg-teal text-[#0a0e1a] text-[8px] font-bold w-4 h-4 rounded-full flex items-center justify-center">3</span>
-      </button>
-      <button class="relative text-muted hover:text-white transition-colors">
-        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
-        <span class="absolute -top-1 -right-1 bg-info text-white text-[8px] font-bold w-4 h-4 rounded-full flex items-center justify-center">2</span>
-      </button>
-      <div class="flex items-center gap-2 cursor-pointer group">
-        <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-[#0a0e1a]" style="background:linear-gradient(135deg,#00d4b8,#22d3ee)">D</div>
-        <div>
-          <div class="text-sm font-semibold text-white">Dharani</div>
-          <div class="text-[10px] text-teal font-semibold">Donor</div>
-        </div>
-        <svg class="w-3 h-3 text-muted" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg>
-      </div>
-    </div>
-  </header>
-
-  <!-- PAGE CONTENT -->
-  <div class="flex-1 overflow-y-auto">
-
-    <!-- ── HERO BANNER ── -->
-    <div class="relative overflow-hidden px-6 py-5" style="background:linear-gradient(135deg,#0d1628 0%,#0f1a2e 50%,#0a1520 100%)">
-      <!-- subtle grid pattern -->
-      <div class="absolute inset-0 opacity-5" style="background-image:linear-gradient(#00d4b8 1px,transparent 1px),linear-gradient(90deg,#00d4b8 1px,transparent 1px);background-size:40px 40px"></div>
-      <!-- glow blobs -->
-      <div class="absolute right-0 top-0 w-64 h-64 rounded-full pointer-events-none" style="background:radial-gradient(circle,rgba(0,212,184,0.08) 0%,transparent 70%)"></div>
-      <div class="absolute right-40 bottom-0 w-48 h-48 rounded-full pointer-events-none" style="background:radial-gradient(circle,rgba(168,85,247,0.06) 0%,transparent 70%)"></div>
-
-      <div class="relative z-10">
-        <!-- Badge -->
-        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-teal/30 bg-teal/10 text-teal text-[11px] font-semibold mb-3">
-          <span class="w-1.5 h-1.5 rounded-full bg-teal pulse"></span>
-          AI-POWERED BLOOD NETWORK
-        </div>
-        <h2 class="text-xl font-bold mb-1 text-white">Welcome back, Dharani! 👋</h2>
-        <p class="text-sm text-muted mb-5">Every drop can save a life. Let's help someone today.</p>
-
-        <!-- Stats row -->
-        <div class="grid grid-cols-4 gap-3">
-          <div class="glass-card p-3 flex items-center gap-3" style="border-color:rgba(0,212,184,0.2)">
-            <div class="w-9 h-9 rounded-lg flex items-center justify-center text-base flex-shrink-0" style="background:rgba(0,212,184,0.15)">👥</div>
-            <div>
-              <div class="text-[10px] text-muted mb-0.5">Total Donors</div>
-              <div class="text-lg font-bold text-white">12,458</div>
-              <div class="text-[10px] text-teal">↑ 12.5% this month</div>
-            </div>
-          </div>
-          <div class="glass-card p-3 flex items-center gap-3" style="border-color:rgba(0,212,184,0.2)">
-            <div class="w-9 h-9 rounded-lg flex items-center justify-center text-base flex-shrink-0" style="background:rgba(16,185,129,0.15)">💧</div>
-            <div>
-              <div class="text-[10px] text-muted mb-0.5">Available Donors</div>
-              <div class="text-lg font-bold text-white">1,245</div>
-              <div class="text-[10px] text-success">↑ 8.4% this month</div>
-            </div>
-          </div>
-          <div class="glass-card p-3 flex items-center gap-3" style="border-color:rgba(0,212,184,0.2)">
-            <div class="w-9 h-9 rounded-lg flex items-center justify-center text-base flex-shrink-0" style="background:rgba(59,130,246,0.15)">📋</div>
-            <div>
-              <div class="text-[10px] text-muted mb-0.5">Active Requests</div>
-              <div class="text-lg font-bold text-white">32</div>
-              <div class="text-[10px] text-info">↑ 16.2% this month</div>
-            </div>
-          </div>
-          <div class="glass-card p-3 flex items-center gap-3" style="border-color:rgba(168,85,247,0.2)">
-            <div class="w-9 h-9 rounded-lg flex items-center justify-center text-base flex-shrink-0" style="background:rgba(168,85,247,0.15)">❤️</div>
-            <div>
-              <div class="text-[10px] text-muted mb-0.5">Lives Impacted</div>
-              <div class="text-lg font-bold text-white">3,245</div>
-              <div class="text-[10px] text-purple">↑ 20.1% this month</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── BODY GRID ── -->
-    <div class="p-5 flex gap-4">
-
-      <!-- LEFT COLUMN -->
-      <div class="flex-1 min-w-0 flex flex-col gap-4">
-
-        <!-- ── AI CHAT CARD ── -->
-        <div class="glass-card overflow-hidden" style="border-color:rgba(0,212,184,0.2)">
-          <!-- Header -->
-          <div class="flex items-center justify-between px-4 py-3 border-b border-border">
-            <div class="flex items-center gap-3">
-              <div class="w-8 h-8 rounded-full flex items-center justify-center text-sm flex-shrink-0" style="background:linear-gradient(135deg,rgba(0,212,184,0.2),rgba(34,211,238,0.1));border:1px solid rgba(0,212,184,0.3)">🤖</div>
-              <div>
-                <div class="text-sm font-bold text-white flex items-center gap-2">
-                  AI Assistant
-                  <span class="flex items-center gap-1 text-[10px] text-teal font-normal">
-                    <span class="w-1.5 h-1.5 rounded-full bg-teal pulse"></span> Online
-                  </span>
-                </div>
-                <div class="text-[11px] text-muted">Chat with AI to request blood or get help.</div>
-              </div>
-            </div>
-            <button class="flex items-center gap-1.5 text-[11px] text-muted hover:text-white border border-border rounded-lg px-2.5 py-1.5 hover:border-border2 transition-colors">
-              <svg class="w-3 h-3" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
-              Clear Chat
-            </button>
-          </div>
-
-          <!-- Messages -->
-          <div id="chatMessages" class="px-4 py-4 space-y-4 min-h-[200px] max-h-[320px] overflow-y-auto">
-            <div id="emptyState" class="flex flex-col items-center justify-center h-36 text-center">
-              <!-- Scan animation from homepage -->
-              <div class="relative w-20 h-20 mb-3 flex items-center justify-center">
-                <div class="absolute inset-0 rounded-full border border-teal/20 scan-ring"></div>
-                <div class="absolute inset-2 rounded-full border border-teal/15 scan-ring" style="animation-delay:.4s"></div>
-                <div class="w-12 h-12 rounded-xl flex items-center justify-center text-[#0a0e1a] font-bold text-sm" style="background:linear-gradient(135deg,#00d4b8,#22d3ee)">
-                  <span class="text-lg">🤖</span>
-                </div>
-              </div>
-              <div class="text-sm font-bold text-white mb-1">BloodLink <span class="grad-teal">AI</span> Assistant</div>
-              <div class="text-[11px] text-muted max-w-xs leading-relaxed">Describe your blood need in natural language. I'll find compatible donors near you instantly.</div>
-            </div>
-          </div>
-
-          <!-- Suggestion chips -->
-          <div id="suggestions" class="px-4 pb-3">
-            <div class="text-[10px] text-muted mb-2">Try asking:</div>
-            <div class="flex flex-wrap gap-2">
-              <button onclick="useSuggestion(this)" class="border border-border rounded-full px-3 py-1.5 text-[11px] text-muted hover:border-teal/50 hover:text-teal hover:bg-teal/5 transition-all">Need O+ blood in MIOT Hospital</button>
-              <button onclick="useSuggestion(this)" class="border border-border rounded-full px-3 py-1.5 text-[11px] text-muted hover:border-teal/50 hover:text-teal hover:bg-teal/5 transition-all">B+ blood urgently in Kilpauk</button>
-              <button onclick="useSuggestion(this)" class="border border-border rounded-full px-3 py-1.5 text-[11px] text-muted hover:border-teal/50 hover:text-teal hover:bg-teal/5 transition-all">AB- blood in Global Hospital</button>
-            </div>
-          </div>
-
-          <!-- Follow-up chips -->
-          <div id="followUpChips" class="hidden px-4 pb-3">
-            <div class="flex flex-wrap gap-2">
-              <button onclick="sendFollowUp(this)" class="border border-border rounded-full px-3 py-1.5 text-[11px] text-muted hover:border-teal/50 hover:text-teal hover:bg-teal/5 transition-all">How long will it take?</button>
-              <button onclick="sendFollowUp(this)" class="border border-border rounded-full px-3 py-1.5 text-[11px] text-muted hover:border-teal/50 hover:text-teal hover:bg-teal/5 transition-all">Where can I get blood?</button>
-              <button onclick="sendFollowUp(this)" class="border border-border rounded-full px-3 py-1.5 text-[11px] text-muted hover:border-teal/50 hover:text-teal hover:bg-teal/5 transition-all">What is blood compatibility?</button>
-              <button onclick="sendFollowUp(this)" class="border border-border rounded-full px-3 py-1.5 text-[11px] text-muted hover:border-teal/50 hover:text-teal hover:bg-teal/5 transition-all">Thank you!</button>
-            </div>
-          </div>
-
-          <!-- Input -->
-          <div class="px-4 pb-4">
-            <div class="flex items-center gap-2 bg-[#0a0e1a] border border-border focus-within:border-teal/50 rounded-xl px-4 py-2.5 transition-colors">
-              <input id="chatInput" type="text" placeholder="Type your message..." class="flex-1 bg-transparent text-sm text-white outline-none placeholder-dim" onkeydown="handleKey(event)" />
-              <button class="text-muted hover:text-teal transition-colors">
-                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg>
-              </button>
-              <button onclick="sendMessage()" class="btn-teal px-4 py-1.5 text-xs flex items-center gap-1.5 rounded-lg">
-                <svg class="w-3 h-3" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-                Send
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- ── NEARBY DONORS ── -->
-        <div>
-          <div class="flex items-center justify-between mb-3">
-            <h3 class="text-sm font-bold text-white">Nearby Compatible Donors</h3>
-            <span class="text-[11px] text-teal cursor-pointer hover:underline flex items-center gap-1">
-              Sorted by distance
-              <svg class="w-3 h-3" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-            </span>
-          </div>
-          <div class="grid grid-cols-4 gap-3">
-
-            <!-- Donor card macro -->
-            <!-- Donor 1 -->
-            <div class="glass-card p-3 hover:border-teal/30 transition-colors">
-              <div class="flex items-center gap-2 mb-2">
-                <div class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 text-white" style="background:linear-gradient(135deg,#0d4a6b,#1565c0)">R</div>
-                <div>
-                  <div class="text-xs font-semibold text-white">Ravi Kumar</div>
-                  <div class="text-xs font-bold text-teal">A+</div>
-                </div>
-              </div>
-              <div class="flex items-center gap-1 text-[11px] text-success mb-1">
-                <span class="w-1.5 h-1.5 rounded-full bg-success pulse flex-shrink-0"></span> Available
-              </div>
-              <div class="text-[11px] text-muted mb-2">📍 1.2 km away</div>
-              <div class="mb-3">
-                <div class="flex justify-between text-[10px] mb-1"><span class="text-muted">Match</span><span class="text-teal font-bold">98%</span></div>
-                <div class="h-1 bg-[#0a0e1a] rounded-full overflow-hidden"><div class="h-full rounded-full bar-fill" style="width:98%;background:linear-gradient(90deg,#00d4b8,#22d3ee)"></div></div>
-              </div>
-              <div class="flex gap-1.5">
-                <button class="flex-1 py-1.5 text-[10px] font-semibold border border-border rounded-lg text-muted hover:border-border2 hover:text-white transition-colors flex items-center justify-center gap-1">📞 Call</button>
-                <button class="btn-teal flex-1 py-1.5 text-[10px] rounded-lg flex items-center justify-center gap-1">📡 Notify</button>
-              </div>
-            </div>
-
-            <!-- Donor 2 -->
-            <div class="glass-card p-3 hover:border-teal/30 transition-colors">
-              <div class="flex items-center gap-2 mb-2">
-                <div class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 text-white" style="background:linear-gradient(135deg,#4a1060,#7b2d9e)">P</div>
-                <div>
-                  <div class="text-xs font-semibold text-white">Priya S</div>
-                  <div class="text-xs font-bold text-teal">A+</div>
-                </div>
-              </div>
-              <div class="flex items-center gap-1 text-[11px] text-success mb-1">
-                <span class="w-1.5 h-1.5 rounded-full bg-success pulse flex-shrink-0"></span> Available
-              </div>
-              <div class="text-[11px] text-muted mb-2">📍 2.4 km away</div>
-              <div class="mb-3">
-                <div class="flex justify-between text-[10px] mb-1"><span class="text-muted">Match</span><span class="text-teal font-bold">95%</span></div>
-                <div class="h-1 bg-[#0a0e1a] rounded-full overflow-hidden"><div class="h-full rounded-full bar-fill" style="width:95%;background:linear-gradient(90deg,#00d4b8,#22d3ee)"></div></div>
-              </div>
-              <div class="flex gap-1.5">
-                <button class="flex-1 py-1.5 text-[10px] font-semibold border border-border rounded-lg text-muted hover:border-border2 hover:text-white transition-colors flex items-center justify-center gap-1">📞 Call</button>
-                <button class="btn-teal flex-1 py-1.5 text-[10px] rounded-lg flex items-center justify-center gap-1">📡 Notify</button>
-              </div>
-            </div>
-
-            <!-- Donor 3 -->
-            <div class="glass-card p-3 hover:border-teal/30 transition-colors">
-              <div class="flex items-center gap-2 mb-2">
-                <div class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 text-white" style="background:linear-gradient(135deg,#0a4a3a,#0d7a60)">A</div>
-                <div>
-                  <div class="text-xs font-semibold text-white">Arun K</div>
-                  <div class="text-xs font-bold text-teal">A+</div>
-                </div>
-              </div>
-              <div class="flex items-center gap-1 text-[11px] text-success mb-1">
-                <span class="w-1.5 h-1.5 rounded-full bg-success pulse flex-shrink-0"></span> Available
-              </div>
-              <div class="text-[11px] text-muted mb-2">📍 3.6 km away</div>
-              <div class="mb-3">
-                <div class="flex justify-between text-[10px] mb-1"><span class="text-muted">Match</span><span class="text-teal font-bold">93%</span></div>
-                <div class="h-1 bg-[#0a0e1a] rounded-full overflow-hidden"><div class="h-full rounded-full bar-fill" style="width:93%;background:linear-gradient(90deg,#00d4b8,#22d3ee)"></div></div>
-              </div>
-              <div class="flex gap-1.5">
-                <button class="flex-1 py-1.5 text-[10px] font-semibold border border-border rounded-lg text-muted hover:border-border2 hover:text-white transition-colors flex items-center justify-center gap-1">📞 Call</button>
-                <button class="btn-teal flex-1 py-1.5 text-[10px] rounded-lg flex items-center justify-center gap-1">📡 Notify</button>
-              </div>
-            </div>
-
-            <!-- Donor 4 -->
-            <div class="glass-card p-3 hover:border-teal/30 transition-colors">
-              <div class="flex items-center gap-2 mb-2">
-                <div class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 text-white" style="background:linear-gradient(135deg,#4a2a00,#a05a00)">D</div>
-                <div>
-                  <div class="text-xs font-semibold text-white">Divya R</div>
-                  <div class="text-xs font-bold text-teal">A+</div>
-                </div>
-              </div>
-              <div class="flex items-center gap-1 text-[11px] text-success mb-1">
-                <span class="w-1.5 h-1.5 rounded-full bg-success pulse flex-shrink-0"></span> Available
-              </div>
-              <div class="text-[11px] text-muted mb-2">📍 4.8 km away</div>
-              <div class="mb-3">
-                <div class="flex justify-between text-[10px] mb-1"><span class="text-muted">Match</span><span class="text-teal font-bold">92%</span></div>
-                <div class="h-1 bg-[#0a0e1a] rounded-full overflow-hidden"><div class="h-full rounded-full bar-fill" style="width:92%;background:linear-gradient(90deg,#00d4b8,#22d3ee)"></div></div>
-              </div>
-              <div class="flex gap-1.5">
-                <button class="flex-1 py-1.5 text-[10px] font-semibold border border-border rounded-lg text-muted hover:border-border2 hover:text-white transition-colors flex items-center justify-center gap-1">📞 Call</button>
-                <button class="btn-teal flex-1 py-1.5 text-[10px] rounded-lg flex items-center justify-center gap-1">📡 Notify</button>
-              </div>
-            </div>
-          </div>
-
-          <button class="w-full mt-3 text-xs text-teal hover:text-teal-dim font-semibold py-2 border border-border rounded-xl hover:border-teal/30 hover:bg-teal/5 transition-all flex items-center justify-center gap-1">
-            View all donors
-            <svg class="w-3 h-3" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-          </button>
-        </div>
-
-      </div><!-- /left -->
-
-      <!-- ── RIGHT PANEL (hidden until message sent) ── -->
-      <div id="rightPanel" class="w-72 min-w-[288px] hidden flex-col gap-4">
-
-        <!-- Current Request -->
-        <div class="glass-card p-4" style="border-color:rgba(0,212,184,0.25)">
-          <div class="flex items-center justify-between mb-3">
-            <div class="text-sm font-bold text-white flex items-center gap-2">
-              🚨 Current Request
-            </div>
-            <span class="flex items-center gap-1 text-[10px] text-teal font-bold border border-teal/30 bg-teal/10 px-2 py-0.5 rounded-full">
-              <span class="w-1.5 h-1.5 rounded-full bg-teal pulse"></span> Live
-            </span>
-          </div>
-          <div class="space-y-2.5 text-xs mb-4">
-            <div class="flex justify-between items-center">
-              <span class="text-muted">Blood Group</span>
-              <span class="font-bold text-teal text-sm">A+</span>
-            </div>
-            <div class="flex justify-between items-center">
-              <span class="text-muted">Hospital</span>
-              <span class="font-semibold text-white text-right text-[11px]">Apollo Hospital, Chennai</span>
-            </div>
-            <div class="flex justify-between items-center">
-              <span class="text-muted">Units Required</span>
-              <span class="font-semibold text-white">2 Units</span>
-            </div>
-            <div class="flex justify-between items-center">
-              <span class="text-muted">Urgency</span>
-              <span class="font-bold text-urgent">High</span>
-            </div>
-            <div class="flex justify-between items-center">
-              <span class="text-muted">Requested At</span>
-              <span class="font-semibold text-white">10:30 AM</span>
-            </div>
-          </div>
-
-          <!-- Donut -->
-          <div class="text-xs font-semibold text-muted mb-2">Request Progress</div>
-          <div class="flex items-center gap-4">
-            <div class="relative w-[72px] h-[72px] flex-shrink-0">
-              <svg viewBox="0 0 36 36" class="w-full h-full -rotate-90">
-                <circle cx="18" cy="18" r="15.9" fill="none" stroke="#1e2d45" stroke-width="3"/>
-                <circle cx="18" cy="18" r="15.9" fill="none" stroke="#3b82f6" stroke-width="3" stroke-dasharray="86 14" stroke-linecap="round"/>
-                <circle cx="18" cy="18" r="15.9" fill="none" stroke="#00d4b8" stroke-width="3" stroke-dasharray="14 86" stroke-linecap="round" stroke-dashoffset="-86"/>
-              </svg>
-              <div class="absolute inset-0 flex flex-col items-center justify-center">
-                <div class="text-sm font-bold text-white">28</div>
-                <div class="text-[8px] text-muted leading-tight text-center">Notif.<br>Sent</div>
-              </div>
-            </div>
-            <div class="space-y-2 flex-1">
-              <div class="flex items-center justify-between text-[11px]">
-                <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-teal flex-shrink-0"></span><span class="text-muted">Accepted</span></span>
-                <span class="font-bold text-white">4</span>
-              </div>
-              <div class="flex items-center justify-between text-[11px]">
-                <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-info flex-shrink-0"></span><span class="text-muted">Pending</span></span>
-                <span class="font-bold text-white">24</span>
-              </div>
-              <button class="text-[10px] text-teal font-semibold hover:underline flex items-center gap-0.5 mt-1">
-                View Details
-                <svg class="w-3 h-3" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Live Map -->
-        <div class="glass-card overflow-hidden" style="border-color:rgba(0,212,184,0.2)">
-          <div class="flex items-center justify-between px-3 py-2.5 border-b border-border">
-            <div class="text-xs font-bold text-white flex items-center gap-1.5">
-              <span class="w-2 h-2 rounded-full bg-teal pulse"></span> Live Map
-            </div>
-            <button class="text-[10px] text-teal hover:underline font-semibold flex items-center gap-0.5">
-              View full map
-              <svg class="w-3 h-3" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-            </button>
-          </div>
-          <div class="relative h-44">
-            <svg viewBox="0 0 288 176" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
-              <defs>
-                <radialGradient id="mapGlow" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stop-color="#00d4b8" stop-opacity="0.08"/>
-                  <stop offset="100%" stop-color="#0a0e1a" stop-opacity="0"/>
-                </radialGradient>
-              </defs>
-              <rect width="288" height="176" fill="#0d1628"/>
-              <rect width="288" height="176" fill="url(#mapGlow)"/>
-              <!-- Roads -->
-              <line x1="0" y1="88" x2="288" y2="88" stroke="#1a2845" stroke-width="7"/>
-              <line x1="144" y1="0" x2="144" y2="176" stroke="#1a2845" stroke-width="7"/>
-              <line x1="0" y1="46" x2="288" y2="130" stroke="#162035" stroke-width="4"/>
-              <line x1="0" y1="132" x2="288" y2="54" stroke="#162035" stroke-width="4"/>
-              <line x1="70" y1="0" x2="70" y2="176" stroke="#162035" stroke-width="2.5"/>
-              <line x1="218" y1="0" x2="218" y2="176" stroke="#162035" stroke-width="2.5"/>
-              <!-- Area labels -->
-              <text x="20" y="40" font-size="6.5" fill="#2a4060" font-family="Inter,sans-serif" font-weight="600">EGMORE</text>
-              <text x="80" y="66" font-size="5.5" fill="#2a4060" font-family="Inter,sans-serif" font-weight="600">NUNGAMBAKKAM</text>
-              <text x="20" y="118" font-size="6.5" fill="#2a4060" font-family="Inter,sans-serif" font-weight="600">T. NAGAR</text>
-              <text x="198" y="135" font-size="6.5" fill="#2a4060" font-family="Inter,sans-serif" font-weight="600">MYLAPORE</text>
-              <text x="178" y="163" font-size="6.5" fill="#2a4060" font-family="Inter,sans-serif" font-weight="600">ADYAR</text>
-              <!-- Hospital ping ring -->
-              <circle cx="144" cy="93" r="20" fill="none" stroke="#00d4b8" stroke-width="1" opacity=".2"/>
-              <circle cx="144" cy="93" r="13" fill="rgba(0,212,184,0.12)" stroke="#00d4b8" stroke-width="1.5" opacity=".5"/>
-              <circle cx="144" cy="93" r="9" fill="#00b09c" opacity=".95"/>
-              <text x="144" y="97" text-anchor="middle" font-size="10" fill="white" font-family="sans-serif">+</text>
-              <text x="144" y="112" text-anchor="middle" font-size="5.5" fill="#00d4b8" font-family="Inter,sans-serif">Apollo Hospital</text>
-              <!-- Donor pins (teal) -->
-              <circle cx="100" cy="60" r="7" fill="#0d7a60" opacity=".9" stroke="#00d4b8" stroke-width="1"/>
-              <text x="100" y="64" text-anchor="middle" font-size="8" fill="#00d4b8">●</text>
-              <circle cx="178" cy="38" r="7" fill="#0d7a60" opacity=".9" stroke="#00d4b8" stroke-width="1"/>
-              <text x="178" y="42" text-anchor="middle" font-size="8" fill="#00d4b8">●</text>
-              <circle cx="212" cy="75" r="7" fill="#0d7a60" opacity=".9" stroke="#00d4b8" stroke-width="1"/>
-              <text x="212" y="79" text-anchor="middle" font-size="8" fill="#00d4b8">●</text>
-              <circle cx="118" cy="145" r="7" fill="#0d7a60" opacity=".9" stroke="#00d4b8" stroke-width="1"/>
-              <text x="118" y="149" text-anchor="middle" font-size="8" fill="#00d4b8">●</text>
-              <!-- You (blue dot) -->
-              <circle cx="108" cy="93" r="12" fill="none" stroke="#3b82f6" stroke-width="1" opacity=".3"/>
-              <circle cx="108" cy="93" r="7" fill="#1d4ed8" opacity=".9" stroke="#3b82f6" stroke-width="1.5"/>
-            </svg>
-            <!-- Legend -->
-            <div class="absolute bottom-2 left-2 flex gap-3 bg-[rgba(10,14,26,0.8)] border border-border px-2 py-1 rounded-lg text-[10px] text-muted">
-              <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-teal inline-block"></span>Hospital</span>
-              <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-success inline-block"></span>Donors</span>
-              <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-info inline-block"></span>You</span>
-            </div>
-            <!-- Zoom -->
-            <div class="absolute right-2 top-2 flex flex-col gap-1">
-              <button class="w-6 h-6 bg-[rgba(10,14,26,0.8)] border border-border text-white text-xs rounded flex items-center justify-center hover:border-teal/40 transition-colors">+</button>
-              <button class="w-6 h-6 bg-[rgba(10,14,26,0.8)] border border-border text-white text-xs rounded flex items-center justify-center hover:border-teal/40 transition-colors">−</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Recent Activity -->
-        <div class="glass-card p-4">
-          <div class="flex items-center justify-between mb-3">
-            <div class="text-sm font-bold text-white">Recent Activity</div>
-            <button class="text-[10px] text-teal hover:underline">View all</button>
-          </div>
-          <div class="space-y-3">
-            <div class="flex items-start gap-2.5">
-              <div class="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 text-sm" style="background:rgba(0,212,184,0.15)">🩸</div>
-              <div class="flex-1 min-w-0">
-                <div class="text-[11px] text-white leading-snug">Request created for A+ blood at Apollo Hospital</div>
-                <div class="text-[10px] text-muted mt-0.5">10:30 AM</div>
-              </div>
-            </div>
-            <div class="flex items-start gap-2.5">
-              <div class="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 text-sm" style="background:rgba(59,130,246,0.15)">🤖</div>
-              <div class="flex-1">
-                <div class="text-[11px] text-white leading-snug">AI matched 28 compatible donors</div>
-                <div class="text-[10px] text-muted mt-0.5">10:31 AM</div>
-              </div>
-            </div>
-            <div class="flex items-start gap-2.5">
-              <div class="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 text-sm" style="background:rgba(168,85,247,0.15)">📡</div>
-              <div class="flex-1">
-                <div class="text-[11px] text-white leading-snug">Notifications sent to nearby donors</div>
-                <div class="text-[10px] text-muted mt-0.5">10:31 AM</div>
-              </div>
-            </div>
-            <div class="flex items-start gap-2.5">
-              <div class="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 text-sm" style="background:rgba(249,115,22,0.15)">📋</div>
-              <div class="flex-1">
-                <div class="text-[11px] text-white leading-snug">4 donors responded to your request</div>
-                <div class="text-[10px] text-muted mt-0.5">10:35 AM</div>
-              </div>
-            </div>
-            <div class="flex items-start gap-2.5">
-              <div class="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 text-sm" style="background:rgba(16,185,129,0.15)">✅</div>
-              <div class="flex-1">
-                <div class="text-[11px] text-white leading-snug">2 donors accepted your request</div>
-                <div class="text-[10px] text-muted mt-0.5">10:38 AM</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div><!-- /right panel -->
-    </div><!-- /body grid -->
-  </div><!-- /page content -->
-</div><!-- /main -->
-
-<!-- ══════════════ SCRIPT ══════════════ -->
-<script>
-  let messageSent = false;
-
-  function toggleSidebar() {
-    document.getElementById('sidebar').classList.toggle('hidden');
+  if (sidebar.classList.contains('-translate-x-full')) {
+      sidebar.classList.remove('-translate-x-full');
+      overlay.classList.remove('hidden');
+      setTimeout(() => overlay.classList.add('opacity-100'), 10);
+  } else {
+      sidebar.classList.add('-translate-x-full');
+      overlay.classList.remove('opacity-100');
+      setTimeout(() => overlay.classList.add('hidden'), 300);
   }
+}
 
-  function useSuggestion(btn) {
-    document.getElementById('chatInput').value = btn.textContent.trim();
-    sendMessage();
-  }
+function useSuggestion(btn) {
+      document.getElementById('chatInput').value = btn.textContent.trim();
+      sendMessage();
+    }
+    function sendFollowUp(btn) {
+      document.getElementById('chatInput').value = btn.textContent.trim();
+      sendMessage();
+    }
+    function handleKey(e) {
+      if (e.key === 'Enter') sendMessage();
+    }
 
-  function sendFollowUp(btn) {
-    document.getElementById('chatInput').value = btn.textContent.trim();
-    sendMessage();
-  }
+    function sendMessage() {
+      const input = document.getElementById('chatInput');
+      const text = input.value.trim();
+      if (!text) return;
 
-  function handleKey(e) {
-    if (e.key === 'Enter') sendMessage();
-  }
+      const messagesDiv = document.getElementById('chatMessages');
+      const emptyState = document.getElementById('emptyState');
+      if (emptyState) emptyState.remove();
 
-  function sendMessage() {
-    const input = document.getElementById('chatInput');
-    const text = input.value.trim();
-    if (!text) return;
+      document.getElementById('suggestions').classList.add('hidden');
 
-    const messagesDiv = document.getElementById('chatMessages');
-
-    // Remove empty state
-    const es = document.getElementById('emptyState');
-    if (es) es.remove();
-
-    // Hide suggestions
-    document.getElementById('suggestions').classList.add('hidden');
-
-    // User bubble
-    const userEl = document.createElement('div');
-    userEl.className = 'flex justify-end fade-up';
-    userEl.innerHTML = `
-      <div class="max-w-[78%]">
-        <div class="bubble-user px-4 py-2.5 text-xs font-semibold">${escapeHTML(text)}</div>
-        <div class="text-[10px] text-muted mt-1 text-right">10:30 AM ✓✓</div>
-      </div>`;
-    messagesDiv.appendChild(userEl);
-    input.value = '';
-    scrollChat();
-
-    // Typing indicator
-    const typingEl = document.createElement('div');
-    typingEl.id = 'typingDots';
-    typingEl.className = 'flex items-start gap-2 fade-up';
-    typingEl.innerHTML = `
-      <div class="w-7 h-7 rounded-full flex items-center justify-center text-xs flex-shrink-0" style="background:linear-gradient(135deg,rgba(0,212,184,0.2),rgba(34,211,238,0.1));border:1px solid rgba(0,212,184,0.3)">🤖</div>
-      <div class="bubble-ai px-4 py-3 flex items-center gap-1.5">
-        <span class="w-1.5 h-1.5 rounded-full bg-teal pulse" style="background:#00d4b8"></span>
-        <span class="w-1.5 h-1.5 rounded-full bg-teal pulse" style="background:#00d4b8;animation-delay:.25s"></span>
-        <span class="w-1.5 h-1.5 rounded-full bg-teal pulse" style="background:#00d4b8;animation-delay:.5s"></span>
-      </div>`;
-    messagesDiv.appendChild(typingEl);
-    scrollChat();
-
-    setTimeout(() => {
-      const td = document.getElementById('typingDots');
-      if (td) td.remove();
-
-      const lower = text.toLowerCase();
-      let responseHTML = '';
-
-      if (lower.includes('how long') || lower.includes('take')) {
-        responseHTML = `<div class="text-xs text-white leading-relaxed">The nearest donor <span class="text-teal font-semibold">Ravi Kumar</span> is <span class="font-bold text-white">1.2 km</span> away. Estimated arrival: <span class="font-bold text-teal">~8 minutes</span>. 🚗</div>`;
-      } else if (lower.includes('thank')) {
-        responseHTML = `<div class="text-xs text-white leading-relaxed">You're welcome! 🙏 Stay strong — help is on the way. I'm here anytime you need.</div>`;
-      } else if (lower.includes('compat')) {
-        responseHTML = `<div class="text-xs text-white leading-relaxed"><span class="text-teal font-bold">A+</span> can receive from: <span class="font-bold">A+, A−, O+, O−</span>. Compatible donors are already listed on the right panel. 🩸</div>`;
-      } else if (lower.includes('where')) {
-        responseHTML = `<div class="text-xs text-white leading-relaxed">You can get blood at <span class="text-teal font-semibold">Apollo Hospital, Chennai</span>. I've already notified 28 donors in your area. 📍</div>`;
-      } else {
-        responseHTML = `
-          <div class="text-xs text-white leading-relaxed">
-            Got it! I've noted your requirement.<br>
-            <div class="mt-2 space-y-1.5 p-3 rounded-lg" style="background:rgba(0,212,184,0.06);border:1px solid rgba(0,212,184,0.15)">
-              <div class="flex items-center gap-2"><span class="text-muted w-24">🩸 Blood Group</span><span class="text-teal font-bold">A+</span></div>
-              <div class="flex items-center gap-2"><span class="text-muted w-24">🏥 Hospital</span><span class="text-teal font-semibold">Apollo Hospital, Chennai</span></div>
-              <div class="flex items-center gap-2"><span class="text-muted w-24">⚠️ Urgency</span><span class="text-urgent font-bold">High</span></div>
-              <div class="flex items-center gap-2"><span class="text-muted w-24">💉 Units</span><span class="text-white font-semibold">2 Units</span></div>
-            </div>
-            <div class="mt-2 text-muted">Searching for nearby donors...</div>
-          </div>`;
-      }
-
-      const aiEl = document.createElement('div');
-      aiEl.className = 'flex items-start gap-2 fade-up';
-      aiEl.innerHTML = `
-        <div class="w-7 h-7 rounded-full flex items-center justify-center text-xs flex-shrink-0" style="background:linear-gradient(135deg,rgba(0,212,184,0.2),rgba(34,211,238,0.1));border:1px solid rgba(0,212,184,0.3)">🤖</div>
-        <div>
-          <div class="bubble-ai px-4 py-3 max-w-[85%]">${responseHTML}</div>
-          <div class="text-[10px] text-muted mt-1">10:31 AM</div>
+      const userEl = document.createElement('div');
+      userEl.className = 'flex justify-end fade-up';
+      userEl.innerHTML = `
+        <div class="max-w-[85%]">
+          <div class="bubble-user px-3.5 py-2 text-xs font-semibold">${escapeHTML(text)}</div>
+          <div class="text-[9px] text-muted mt-1 text-right">10:30 AM ✓✓</div>
         </div>`;
-      messagesDiv.appendChild(aiEl);
-      scrollChat();
+      messagesDiv.appendChild(userEl);
+      input.value = '';
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
 
-      // Show follow-up chips
-      document.getElementById('followUpChips').classList.remove('hidden');
-
-      if (!messageSent) {
-        messageSent = true;
-        setTimeout(() => {
-          const aiEl2 = document.createElement('div');
-          aiEl2.className = 'flex items-start gap-2 fade-up';
-          aiEl2.innerHTML = `
-            <div class="w-7 h-7 rounded-full flex items-center justify-center text-xs flex-shrink-0" style="background:linear-gradient(135deg,rgba(0,212,184,0.2),rgba(34,211,238,0.1));border:1px solid rgba(0,212,184,0.3)">🤖</div>
-            <div>
-              <div class="bubble-ai px-4 py-3 text-xs text-white">
-                I found <span class="text-teal font-bold">28 compatible donors</span> near Apollo Hospital. Top donors are shown on the right. Notifications have been sent to them. ✅
-              </div>
-              <div class="text-[10px] text-muted mt-1">10:32 AM</div>
-            </div>`;
-          messagesDiv.appendChild(aiEl2);
-          scrollChat();
-
-          // Reveal right panel
-          const rp = document.getElementById('rightPanel');
-          rp.classList.remove('hidden');
-          rp.classList.add('flex', 'slide-right');
-        }, 1200);
-      }
-    }, 1400);
-  }
-
-  function scrollChat() {
-    const d = document.getElementById('chatMessages');
-    d.scrollTop = d.scrollHeight;
-  }
-
-  function escapeHTML(s) {
-    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  }
-</script>
+    function escapeHTML(s) {
+      return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+  </script>
 </body>
 </html>
