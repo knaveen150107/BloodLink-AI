@@ -2,7 +2,7 @@
 
 <div align="center">
 
-### AI-Powered Blood Donor Matching & Emergency Response Platform 
+### AI-Powered Blood Donor Matching & Emergency Response Platform
 
 *Connecting lifesavers with those who need them most.*
 
